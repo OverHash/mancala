@@ -1,0 +1,5 @@
+[workspace]
+
+members = [
+	"mancala_game"
+]
