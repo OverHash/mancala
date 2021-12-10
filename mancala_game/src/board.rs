@@ -16,6 +16,10 @@ impl Board {
             stores: [0; 2],
         }
     }
+
+    pub fn with_custom_pits(pits: [u8; 12], stores: [u8; 2]) -> Self {
+        Board { pits, stores }
+    }
 }
 
 impl Default for Board {
@@ -41,6 +45,7 @@ impl fmt::Debug for Board {
 
             format!("{}{lines}", " ".repeat(3), lines = lines)
         };
+        writeln!(f)?;
         // line 1: display the second players board pits
         // from position 6 -> 11
         // example:
@@ -78,6 +83,7 @@ mod tests {
     #[test]
     fn formats_empty_board() {
         let lines = Vec::from([
+            "",
             "     #6: 4 |  #7: 4 |  #8: 4 |  #9: 4 | #10: 4 | #11: 4",
             "0  --------+--------+--------+--------+--------+-------- 0",
             "     #5: 4 |  #4: 4 |  #3: 4 |  #2: 4 |  #1: 4 |  #0: 4",
@@ -91,15 +97,14 @@ mod tests {
     #[test]
     fn formats_complete_board() {
         let lines = Vec::from([
+            "",
             "     #6: 0 |  #7: 0 |  #8: 0 |  #9: 0 | #10: 0 | #11: 0",
             "24 --------+--------+--------+--------+--------+-------- 24",
             "     #5: 0 |  #4: 0 |  #3: 0 |  #2: 0 |  #1: 0 |  #0: 0",
             "",
         ]);
 
-        let mut board = Board::new();
-        board.stores = [24; 2];
-        board.pits = [0; 12];
+        let board = Board::with_custom_pits([0; 12], [24; 2]);
         assert_eq!(format!("{:?}", board), lines.join("\n"));
     }
 }
